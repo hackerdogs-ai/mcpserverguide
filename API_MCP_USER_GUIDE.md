@@ -11,7 +11,7 @@ Both methods require a Hackerdogs API key.
 
 ## Prerequisites: Creating an API Key
 
-1. Log in to Hackerdogs at [https://app.hackerdogs.ai](https://app.hackerdogs.ai).
+1. Log in to Hackerdogs at [https://preview.hackerdogs.ai](https://preview.hackerdogs.ai).
 2. Navigate to **API Keys** (sidebar or User Settings).
 3. Click **Create API Key**, give it a name, and copy the key (format: `hd-...`).
 4. Store it securely -- it is shown only once.
@@ -22,7 +22,7 @@ Both methods require a Hackerdogs API key.
 
 The MCP (Model Context Protocol) server lets AI assistants call Hackerdogs tools -- schedule prompts, retrieve conversations, manage schedules -- through a standardized protocol.
 
-**MCP Server URL:** `https://app.hackerdogs.ai/mcp/`
+**MCP Server URL:** `https://preview.hackerdogs.ai/mcp/`
 
 ## MCP Tools Reference
 
@@ -55,7 +55,7 @@ Add to your `claude_desktop_config.json` (typically `~/Library/Application Suppo
 {
   "mcpServers": {
     "hackerdogs": {
-      "url": "https://app.hackerdogs.ai/mcp/",
+      "url": "https://preview.hackerdogs.ai/mcp/",
       "headers": {
         "Authorization": "Bearer hd-YOUR_API_KEY_HERE"
       }
@@ -74,7 +74,7 @@ Add to `.cursor/mcp.json` in your project root (or global settings):
 {
   "mcpServers": {
     "hackerdogs": {
-      "url": "https://app.hackerdogs.ai/mcp/",
+      "url": "https://preview.hackerdogs.ai/mcp/",
       "headers": {
         "Authorization": "Bearer hd-YOUR_API_KEY_HERE"
       }
@@ -87,7 +87,7 @@ Restart Cursor. The tools will appear as MCP tools available to the AI.
 
 ## Installing via Hackerdogs Tools Catalog
 
-1. Log in to Hackerdogs at [https://app.hackerdogs.ai](https://app.hackerdogs.ai).
+1. Log in to Hackerdogs at [https://preview.hackerdogs.ai](https://preview.hackerdogs.ai).
 2. Go to **API Keys** and create a key (if you haven't already). Copy the key.
 3. Go to **Tools Catalog** (sidebar).
 4. Find the **Hackerdogs MCP Server** entry.
@@ -163,7 +163,7 @@ The REST API provides direct HTTP access to three API groups:
 - **Conversation API** (`/conversation-api`) -- Retrieve or delete conversation results.
 - **Chat Completions API** (`/v1`) -- OpenAI-compatible streaming chat endpoint.
 
-**Base URL:** `https://app.hackerdogs.ai`
+**Base URL:** `https://preview.hackerdogs.ai`
 **Authentication:** `X-API-Key: hd-YOUR_KEY` header (all endpoints), or `Authorization: Bearer hd-YOUR_KEY` (Chat Completions).
 
 ## 2.1 Scheduled Prompts API
@@ -191,7 +191,7 @@ The most common endpoint. Creates a schedule and runs it in one call.
 **Request:**
 
 ```bash
-curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+curl -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -229,7 +229,7 @@ The run executes in the background. Use the `conversation_id` to retrieve result
 
 ```bash
 # Step 1: Initial run (new conversation)
-RESULT=$(curl -s -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+RESULT=$(curl -s -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{"prompt": "Reconnaissance on target.com: subdomains, DNS, WHOIS."}')
@@ -238,7 +238,7 @@ CONV_ID=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdi
 echo "Conversation ID: $CONV_ID"
 
 # Step 2: Continue in the same conversation
-curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+curl -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d "{
@@ -250,7 +250,7 @@ curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
 ### POST /schedules (Create for Future/Recurring)
 
 ```bash
-curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedules" \
+curl -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedules" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -272,14 +272,14 @@ curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedules" \
 ### GET /schedules (List)
 
 ```bash
-curl "https://app.hackerdogs.ai/scheduled-prompts-api/schedules?status_filter=active&limit=10" \
+curl "https://preview.hackerdogs.ai/scheduled-prompts-api/schedules?status_filter=active&limit=10" \
   -H "X-API-Key: hd-YOUR_KEY"
 ```
 
 ### POST /schedules/{id}/run-now (Trigger Existing)
 
 ```bash
-curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedules/01KJXYZ.../run-now" \
+curl -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedules/01KJXYZ.../run-now" \
   -H "X-API-Key: hd-YOUR_KEY"
 ```
 
@@ -314,7 +314,7 @@ Conversations are the output of scheduled prompt runs. Each run produces files, 
 Retrieve the complete conversation output after a run completes.
 
 ```bash
-curl "https://app.hackerdogs.ai/conversation-api/conversations/01KJVJ4FHWEV43MR1A9YKCG3NB" \
+curl "https://preview.hackerdogs.ai/conversation-api/conversations/01KJVJ4FHWEV43MR1A9YKCG3NB" \
   -H "X-API-Key: hd-YOUR_KEY"
 ```
 
@@ -358,7 +358,7 @@ curl "https://app.hackerdogs.ai/conversation-api/conversations/01KJVJ4FHWEV43MR1
 ### DELETE /conversations/{conversation_id}
 
 ```bash
-curl -X DELETE "https://app.hackerdogs.ai/conversation-api/conversations/01KJVJ4FHWEV43MR1A9YKCG3NB" \
+curl -X DELETE "https://preview.hackerdogs.ai/conversation-api/conversations/01KJVJ4FHWEV43MR1A9YKCG3NB" \
   -H "X-API-Key: hd-YOUR_KEY"
 ```
 
@@ -377,7 +377,7 @@ curl -X DELETE "https://app.hackerdogs.ai/conversation-api/conversations/01KJVJ4
 
 ```bash
 # 1. Schedule and run
-RESULT=$(curl -s -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+RESULT=$(curl -s -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{"prompt": "Enumerate subdomains for example.com and check for takeover vulnerabilities."}')
@@ -390,7 +390,7 @@ echo "Waiting for conversation $CONV_ID..."
 for i in $(seq 1 30); do
   sleep 10
   HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" \
-    "https://app.hackerdogs.ai/conversation-api/conversations/$CONV_ID" \
+    "https://preview.hackerdogs.ai/conversation-api/conversations/$CONV_ID" \
     -H "X-API-Key: hd-YOUR_KEY")
   echo "  Poll $i: HTTP $HTTP_CODE"
   if [ "$HTTP_CODE" = "200" ]; then
@@ -399,7 +399,7 @@ for i in $(seq 1 30); do
 done
 
 # 3. Get the full packet
-curl -s "https://app.hackerdogs.ai/conversation-api/conversations/$CONV_ID" \
+curl -s "https://preview.hackerdogs.ai/conversation-api/conversations/$CONV_ID" \
   -H "X-API-Key: hd-YOUR_KEY" | python3 -m json.tool
 ```
 
@@ -425,7 +425,7 @@ Use `Authorization: Bearer hd-YOUR_KEY` (preferred) or `X-API-Key: hd-YOUR_KEY`.
 ### POST /v1/chat/completions (Streaming)
 
 ```bash
-curl -X POST "https://app.hackerdogs.ai/v1/chat/completions" \
+curl -X POST "https://preview.hackerdogs.ai/v1/chat/completions" \
   -H "Authorization: Bearer hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -454,7 +454,7 @@ data: [DONE]
 ### POST /v1/chat/completions (Non-streaming)
 
 ```bash
-curl -X POST "https://app.hackerdogs.ai/v1/chat/completions" \
+curl -X POST "https://preview.hackerdogs.ai/v1/chat/completions" \
   -H "Authorization: Bearer hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -505,7 +505,7 @@ curl -X POST "https://app.hackerdogs.ai/v1/chat/completions" \
 ### GET /v1/models
 
 ```bash
-curl "https://app.hackerdogs.ai/v1/models" \
+curl "https://preview.hackerdogs.ai/v1/models" \
   -H "Authorization: Bearer hd-YOUR_KEY"
 ```
 
@@ -528,7 +528,7 @@ from openai import OpenAI
 
 client = OpenAI(
     api_key="hd-YOUR_KEY",
-    base_url="https://app.hackerdogs.ai/v1",
+    base_url="https://preview.hackerdogs.ai/v1",
 )
 
 response = client.chat.completions.create(
@@ -549,7 +549,7 @@ for chunk in response:
 
 In Open WebUI settings, add a new connection:
 
-- **API Base URL:** `https://app.hackerdogs.ai/v1`
+- **API Base URL:** `https://preview.hackerdogs.ai/v1`
 - **API Key:** `hd-YOUR_KEY`
 
 Models will auto-populate from the `/v1/models` endpoint.
@@ -567,7 +567,7 @@ from api_clients.sch.schedule_prompt_now_client import SchedulePromptNowClient
 
 client = SchedulePromptNowClient(
     api_key="hd-YOUR_KEY",
-    base_url="https://app.hackerdogs.ai",
+    base_url="https://preview.hackerdogs.ai",
 )
 
 # Schedule and run now
@@ -596,7 +596,7 @@ from api_clients.conversation.conversation_client import ConversationClient
 
 client = ConversationClient(
     api_key="hd-YOUR_KEY",
-    base_url="https://app.hackerdogs.ai",
+    base_url="https://preview.hackerdogs.ai",
 )
 
 # Get conversation
@@ -617,7 +617,7 @@ client.delete_conversation("01KJVJ4FHWEV43MR1A9YKCG3NB")
 
 ```bash
 # Create a daily schedule at 8 AM UTC
-curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedules" \
+curl -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedules" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{
@@ -631,14 +631,14 @@ curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedules" \
 
 ```bash
 # Step 1: Initial triage
-R1=$(curl -s -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+R1=$(curl -s -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{"prompt": "Investigate IP 203.0.113.42: reverse DNS, geolocation, ASN, reputation checks, and any associated threat intelligence."}')
 CONV=$(echo "$R1" | python3 -c "import sys,json; print(json.load(sys.stdin)['conversation_id'])")
 
 # Step 2: Deeper investigation in same conversation
-curl -s -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+curl -s -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d "{
@@ -647,7 +647,7 @@ curl -s -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   }"
 
 # Step 3: Generate incident report
-curl -s -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+curl -s -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d "{
@@ -659,7 +659,7 @@ curl -s -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
 ### Competitive Intelligence
 
 ```bash
-curl -X POST "https://app.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
+curl -X POST "https://preview.hackerdogs.ai/scheduled-prompts-api/schedule-now" \
   -H "X-API-Key: hd-YOUR_KEY" \
   -H "Content-Type: application/json" \
   -d '{
