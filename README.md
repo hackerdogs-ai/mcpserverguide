@@ -9,6 +9,9 @@ Both methods require a Hackerdogs API key.
 
 ---
 
+## IMPORTANT NOTE
+If your instance is preview.hackerdogs.ai, then replace the instance name from app.hackerdogs.ai to preview.hackerdogs.ai.
+
 ## Prerequisites: Creating an API Key
 
 1. Log in to Hackerdogs at [https://app.hackerdogs.ai](https://app.hackerdogs.ai).
